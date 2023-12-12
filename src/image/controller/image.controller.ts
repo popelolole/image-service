@@ -1,5 +1,4 @@
-// src/image/image.controller.ts
-import { Controller, Get, Post, Body, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Post, Body, UploadedFile, UseInterceptors, Param } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ImageService } from '../service/image/image.service';
 import { ImageDto } from '../dto/image.dto/image.dto';
@@ -11,6 +10,11 @@ export class ImageController {
   @Get()
   async getAllImages() {
     return this.imageService.getAllImages();
+  }
+
+  @Get('/:id')
+  async getImageById(@Param('id') id: string) {
+    return this.imageService.getImageById(id);
   }
 
   @Post()
