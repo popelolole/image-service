@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Image } from '../entity/image.db/image.db';
-//import { UploadImageDto } from './dto/upload-image.dto';
 import { ImageDto } from '../dto/image.dto/image.dto';
+import { NotFoundError } from 'rxjs';
 
 @Injectable()
 export class Persistence {
@@ -19,9 +19,14 @@ export class Persistence {
     return this.mapToDto(image);
   }
 
-  async uploadImage(uploadImageDto: ImageDto): Promise<ImageDto> {
-    const image = new this.imageModel({ name: uploadImageDto.name, data: uploadImageDto.data });
+  async uploadImage(imageDto: ImageDto): Promise<ImageDto> {
+    const image = new this.imageModel({ name: imageDto.name, data: imageDto.data });
     await image.save();
+    return this.mapToDto(image);
+  }
+
+  async updateImage(imageDto: ImageDto): Promise<ImageDto> {
+    const image = await this.imageModel.findByIdAndUpdate(imageDto.id, {name: "changed", data: imageDto.data});
     return this.mapToDto(image);
   }
 

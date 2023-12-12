@@ -33,4 +33,9 @@ export class ImageService {
     const createdImage = await this.persistence.uploadImage(imageDto);
     return createdImage;
   }
+
+  async updateImage(imageDto: ImageDto): Promise<ImageDto> {
+    const newImage = await this.persistence.updateImage(imageDto);
+    return newImage;
+  }
 }
