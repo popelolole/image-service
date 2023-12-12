@@ -26,7 +26,7 @@ export class Persistence {
   }
 
   async updateImage(imageDto: ImageDto): Promise<ImageDto> {
-    const image = await this.imageModel.findByIdAndUpdate(imageDto.id, {name: "changed", data: imageDto.data});
+    const image = await this.imageModel.findByIdAndUpdate(imageDto.id, {data: imageDto.data});
     return this.mapToDto(image);
   }
 
