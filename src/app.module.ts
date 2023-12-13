@@ -6,7 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AuthMiddleware } from './auth/auth.middleware';
 
 @Module({
-  imports: [ImageModule, MongooseModule.forRoot('mongodb://localhost:32000',{dbName: 'item-db'})],
+  imports: [ImageModule, MongooseModule.forRoot('mongodb://mongodb-service:27017',{dbName: 'item-db'})],
   controllers: [AppController],
   providers: [AppService],
 })

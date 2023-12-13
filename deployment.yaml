@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: image-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: images
+  template:
+    metadata:
+      labels:
+        app: images
+    spec:
+      containers:
+        - name: images
+          image: docker.io/popelolole/image-service:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: image-service
+spec:
+  selector:
+    app: images
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+      nodePort: 31100
+  type: NodePort
