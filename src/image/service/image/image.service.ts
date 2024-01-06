@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException  } from '@nestjs/common';
 import { ImageDto } from 'src/image/dto/image.dto/image.dto';
+import { Persistence } from '../../persistence/persistence';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Image } from 'src/image/entity/image.db/image.db';
-import { Persistence } from 'src/image/persistence/persistence';
 
 @Injectable()
 export class ImageService {
