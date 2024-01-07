@@ -12,20 +12,22 @@ const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const image_module_1 = require("./image/image.module");
 const mongoose_1 = require("@nestjs/mongoose");
-const auth_middleware_1 = require("./auth/auth.middleware");
+const nest_keycloak_connect_1 = require("nest-keycloak-connect");
+const core_1 = require("@nestjs/core");
 let AppModule = class AppModule {
-    configure(consumer) {
-        consumer.apply(auth_middleware_1.AuthMiddleware).forRoutes({
-            path: '*', method: common_1.RequestMethod.ALL
-        });
-    }
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [image_module_1.ImageModule, mongoose_1.MongooseModule.forRoot('mongodb://vm.cloud.cbh.kth.se:2525', { dbName: 'item-db' })],
+        imports: [image_module_1.ImageModule, mongoose_1.MongooseModule.forRoot('mongodb://vm.cloud.cbh.kth.se:2525', { dbName: 'item-db' }),
+            nest_keycloak_connect_1.KeycloakConnectModule.register({
+                authServerUrl: 'https://raven-keycloak.vm-app.cloud.cbh.kth.se/',
+                realm: 'raven',
+                clientId: 'image-service',
+                secret: 'xNjlkqj8o1jFPsBA4Mdv34EN3SF04BOW',
+            })],
         controllers: [app_controller_1.AppController],
-        providers: [app_service_1.AppService],
+        providers: [app_service_1.AppService, { provide: core_1.APP_GUARD, useClass: nest_keycloak_connect_1.AuthGuard }],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map
