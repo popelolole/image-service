@@ -12,12 +12,12 @@ import {
 import { APP_GUARD } from '@nestjs/core';
 
 @Module({
-  imports: [ImageModule, MongooseModule.forRoot('mongodb://vm.cloud.cbh.kth.se:2525',{dbName: 'item-db'}),
+  imports: [ImageModule, MongooseModule.forRoot(process.env.MONGODB_URL || 'mongodb://localhost:27017',{dbName: process.env.MONGODB_DATABASE || 'item-db'}),
     KeycloakConnectModule.register({
-      authServerUrl: 'https://raven-keycloak.vm-app.cloud.cbh.kth.se/',
-      realm: 'raven',
-      clientId: 'image-service',
-      secret: 'REMOVED_KEYCLOAK_SECRET',
+      authServerUrl: process.env.KEYCLOAK_URL || 'http://localhost:8080',
+      realm: process.env.KEYCLOAK_REALM || 'raven',
+      clientId: process.env.KEYCLOAK_CLIENT_ID || 'image-service',
+      secret: process.env.KEYCLOAK_CLIENT_SECRET || '',
     })],
   controllers: [AppController],
   providers: [AppService, {provide: APP_GUARD, useClass: AuthGuard}],

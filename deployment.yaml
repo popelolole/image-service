@@ -14,7 +14,25 @@ spec:
     spec:
       containers:
         - name: images
-          image: docker.io/popelolole/image-service:latest
+          image: docker.io/<dockerhub-username>/image-service:latest
+            
+        - name: MONGODB_DATABASE
+          value: item-db
+
+        - name: KEYCLOAK_URL
+          value: http://keycloak-service:8080
+
+        - name: KEYCLOAK_REALM
+          value: raven
+
+        - name: KEYCLOAK_CLIENT_ID
+          value: image-service
+
+        - name: KEYCLOAK_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: keycloak-credentials
+              key: image-service-client-secret
 ---
 apiVersion: v1
 kind: Service
